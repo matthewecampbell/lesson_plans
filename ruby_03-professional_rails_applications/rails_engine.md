@@ -44,50 +44,6 @@ You should create stories divided the following way to make sure both team membe
   * Items
   * Invoice Items
 
-**Relationship Endpoints**
-
-* Person A
-  * Invoices
-  * Items
-  * Invoice Items
-* Person B
-  * Merchants
-  * Transactions
-  * Customers
-
-**Business Intelligence Endpoints**
-
-(This portion should be a good starting point for balancing the work. If this seems uneven let the staff know so they can make adjustments.)
-
-* Person A
-  * `GET /api/v1/merchants/:id/revenue`
-  * `GET /api/v1/merchants/:id/revenue?date=x`
-  * `GET /api/v1/merchants/most_items?quantity=x`
-  * `GET /api/v1/customers/:id/favorite_merchant`
-  * `GET /api/v1/items/:id/best_day`
-  * `GET /api/v1/items/most_items?quantity=x`
-* Person B
-  * `GET /api/v1/merchants/:id/customers_with_pending_invoices`
-  * `GET /api/v1/merchants/:id/favorite_customer`
-  * `GET /api/v1/items/most_revenue?quantity=x`
-  * `GET /api/v1/merchants/revenue?date=x`
-  * `GET /api/v1/merchants/most_revenue?quantity=x`
-
-## Technical Expectations
-
-* All endpoints will expect to return JSON data
-* All endpoints should be exposed under an `api` and version (`v1`)
-namespace (e.g. `/api/v1/merchants.json`)
-* JSON responses should include `ids` only for associated records unless otherwise indicated (that is, don't embed the whole associated record, just the id)
-* Prices are in cents, therefore you will need to transform them in dollars. (`12345` becomes `123.45`)
-* Remember that for a JSON string to be valid, it needs to contain a key and a value.
-
-### Data Importing
-
-* You will create an ActiveRecord model for each
-entity included in the [sales engine data](https://github.com/turingschool/sales_engine/tree/master/data).
-* Your application should include a rake task which imports all of the CSV's and creates the corresponding records.
-
 ### Record Endpoints
 
 #### Index of Record
@@ -217,6 +173,18 @@ Returns a random resource.
 }
 ```
 
+**Relationship Endpoints**
+
+* Person A
+  * Invoices
+  * Items
+  * Invoice Items
+* Person B
+  * Merchants
+  * Transactions
+  * Customers
+  
+
 ### Relationship Endpoints
 
 In addition to the direct queries against single resources, we would like to also be able to pull relationship data from the API.
@@ -255,6 +223,26 @@ We'll expose these relationships using nested URLs, as outlined in the sections 
 * `GET /api/v1/customers/:id/invoices` returns a collection of associated invoices
 * `GET /api/v1/customers/:id/transactions` returns a collection of associated transactions
 
+**Business Intelligence Endpoints**
+
+(This portion should be a good starting point for balancing the work. If this seems uneven let the staff know so they can make adjustments.)
+
+* Person A
+  * `GET /api/v1/merchants/:id/revenue`
+  * `GET /api/v1/merchants/:id/revenue?date=x`
+  * `GET /api/v1/merchants/most_items?quantity=x`
+  * `GET /api/v1/customers/:id/favorite_merchant`
+  * `GET /api/v1/items/:id/best_day`
+  * `GET /api/v1/items/most_items?quantity=x`
+* Person B
+  * `GET /api/v1/merchants/:id/customers_with_pending_invoices`
+  * `GET /api/v1/merchants/:id/favorite_customer`
+  * `GET /api/v1/items/:id/best_day`
+  * `GET /api/v1/merchants/revenue?date=x`
+  * `GET /api/v1/merchants/most_revenue?quantity=x`
+
+
+
 ### Business Intelligence Endpoints
 
 We want to maintain the original Business Intelligence functionality
@@ -292,6 +280,24 @@ _NOTE_: All revenues should be reported as a float with two decimal places.
 #### Customers
 
 * `GET /api/v1/customers/:id/favorite_merchant` returns a merchant where the customer has conducted the most successful transactions
+
+
+## Technical Expectations
+
+* All endpoints will expect to return JSON data
+* All endpoints should be exposed under an `api` and version (`v1`)
+namespace (e.g. `/api/v1/merchants.json`)
+* JSON responses should include `ids` only for associated records unless otherwise indicated (that is, don't embed the whole associated record, just the id)
+* Prices are in cents, therefore you will need to transform them in dollars. (`12345` becomes `123.45`)
+* Remember that for a JSON string to be valid, it needs to contain a key and a value.
+
+### Data Importing
+
+* You will create an ActiveRecord model for each
+entity included in the [sales engine data](https://github.com/turingschool/sales_engine/tree/master/data).
+* Your application should include a rake task which imports all of the CSV's and creates the corresponding records.
+
+
 
 ## Check-in and Milestones
 
